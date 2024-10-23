@@ -5,39 +5,39 @@ use App\Module2\AbstractFactory\PersonRepositoryInterface;
 
 class PersonRepositoryProxy implements PersonRepositoryInterface
 {
-    private PersonRepositoryInterface $realRepository;
-    private array $cache = [];
+    private array $personsList = [];
 
-    public function __construct(PersonRepositoryInterface $realRepository)
+    public function __construct(private readonly PersonRepositoryInterface $repository)
     {
-        $this->realRepository = $realRepository;
     }
 
     public function savePerson(Person $person): void
     {
-        $this->realRepository->savePerson($person);
-        $this->cache[$person->getName()] = $person;
+        $this->repository->savePerson($person);
+        $this->personsList[$person->getName()] = $person;
     }
 
     public function readPeople(): array
     {
-        return $this->realRepository->readPeople();
+        return $this->repository->readPeople();
     }
 
-    public function readPerson(string $name): Person
+    public function readPerson(string $name): ?Person
     {
-        if (isset($this->cache[$name])) {
-            return $this->cache[$name];
+        if (isset($this->personsList[$name])) {
+            return $this->personsList[$name];
         }
 
-        $person = $this->realRepository->readPerson($name);
-        $this->cache[$name] = $person;
+        $person = $this->repository->readPerson($name);
+        if ($person !== null) {
+            $this->personsList[$name] = $person;
+        }
+
         return $person;
     }
 
     public function updatePerson(Person $personToUpdate): void
     {
-        $this->realRepository->updatePerson($personToUpdate);
-        $this->cache[$personToUpdate->getName()] = $personToUpdate;
+        $this->repository->updatePerson($personToUpdate);
     }
 }
