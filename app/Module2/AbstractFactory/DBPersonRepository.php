@@ -6,8 +6,6 @@ use PDO;
 
 class DBPersonRepository implements PersonRepositoryInterface
 {
-    protected const string ALIAS = 'Person';
-
     protected PDO $connection;
 
     public function __construct()
@@ -17,21 +15,32 @@ class DBPersonRepository implements PersonRepositoryInterface
 
     public function savePerson(Person $person): void
     {
-        $stmt = $this->connection->prepare("INSERT INTO people (name) VALUES (?)");
-        $stmt->execute([$person->name]);
+        $stmt = $this->connection->prepare("INSERT INTO people (name, iq) VALUES (?, ?)");
+        $stmt->execute([$person->getName(), $person->getIq()]);
     }
 
     public function readPeople(): array
     {
-        return $this->connection->query("SELECT name FROM people")->fetchAll(PDO::FETCH_CLASS, self::ALIAS);
+        return $this->connection->query("SELECT name, iq FROM people")->fetchAll(PDO::FETCH_CLASS, Person::class);
     }
 
-    public function readPerson(string $name): ?Person
+    public function readPerson(string $name): Person
     {
-        $stmt = $this->connection->prepare("SELECT name FROM people WHERE name = ?");
+        $stmt = $this->connection->prepare("SELECT name, iq FROM people WHERE name = ?");
         $stmt->execute([$name]);
-        $stmt->setFetchMode(PDO::FETCH_CLASS, self::ALIAS);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, Person::class);
 
-        return $stmt->fetch();
+        $person = $stmt->fetch();
+
+        if (!$person) {
+            throw new \InvalidArgumentException("Person not found!");
+        }
+
+        return $person;
+    }
+
+    public function updatePerson(Person $personToUpdate): void
+    {
+        // TODO: Implement updatePerson() method.
     }
 }

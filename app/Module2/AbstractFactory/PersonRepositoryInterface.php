@@ -8,5 +8,7 @@ interface PersonRepositoryInterface
 
     public function readPeople(): array;
 
-    public function readPerson(string $name): ?Person;
+    public function readPerson(string $name): Person;
+
+    public function updatePerson(Person $personToUpdate): void;
 }

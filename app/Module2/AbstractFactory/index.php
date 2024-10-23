@@ -10,3 +10,6 @@ $repository->savePerson($person);
 
 $loadedPeople = $repository->readPeople();
 $specificPerson = $repository->readPerson("New Person Name");
+
+print_r($loadedPeople);
+print_r($specificPerson);

@@ -1,15 +1,12 @@
 <?php
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-
-
 use App\Module2\Composite\DirectoryEntity;
 use App\Module2\Composite\FileEntity;
 
-$root = new DirectoryEntity("app");
+$root = new DirectoryEntity("root");
 $folder1 = new DirectoryEntity("folder1");
-$file1 = new FileEntity("file1.txt", 150);
-$file2 = new FileEntity("file2.txt", 120);
+$file1 = new FileEntity("file1.txt", 150); // 150 KB
+$file2 = new FileEntity("file2.txt", 120); // 120 KB
 
 $folder1->add($file1);
 $folder1->add($file2);

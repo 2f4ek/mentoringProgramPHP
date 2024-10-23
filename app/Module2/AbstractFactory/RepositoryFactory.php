@@ -7,7 +7,7 @@ use InvalidArgumentException;
 class RepositoryFactory
 {
     public const string DATABASE = 'DB';
-    public const string FILE_SYSTEM = 'DB';
+    public const string FILE_SYSTEM = 'FS';
 
     public static function create(string $type): PersonRepositoryInterface
     {

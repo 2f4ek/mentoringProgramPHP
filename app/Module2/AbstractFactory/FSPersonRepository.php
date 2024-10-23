@@ -15,6 +15,7 @@ class FSPersonRepository implements PersonRepositoryInterface
     {
         $people = $this->readPeople();
         $people[] = $person;
+
         \file_put_contents($this->filename, \serialize($people));
     }
 
@@ -22,18 +23,33 @@ class FSPersonRepository implements PersonRepositoryInterface
     {
         $content = \file_get_contents($this->filename);
 
-        return \unserialize($content, ['allowed_classes' => false]);
+        return \unserialize($content, ['allowed_classes' => true]);
     }
 
-    public function readPerson(string $name): ?Person
+    public function readPerson(string $name): Person
     {
         $people = $this->readPeople();
         foreach ($people as $person) {
-            if ($person->name === $name) {
+            if ($person->getName() === $name) {
                 return $person;
             }
         }
 
-        return null;
+        throw new \InvalidArgumentException("Person not found!");
+    }
+
+    public function updatePerson(Person $personToUpdate): void
+    {
+        $people = $this->readPeople();
+        foreach ($people as $person) {
+            if ($person->getName() === $personToUpdate->getName()) {
+                $person->setIq($personToUpdate->getIq());
+
+                \file_put_contents($this->filename, \serialize($people));
+                return;
+            }
+        }
+
+        throw new \InvalidArgumentException("Person not found!");
     }
 }
