@@ -11,7 +11,7 @@ $asciiStackAdapter->push('A');
 $asciiStackAdapter->push('B');
 $asciiStackAdapter->push('C');
 
-echo $asciiStackAdapter->pop();
-echo $asciiStackAdapter->pop();
-echo $asciiStackAdapter->pop();
-echo $asciiStackAdapter->pop();
+echo $asciiStackAdapter->pop() . PHP_EOL;
+echo $asciiStackAdapter->pop() . PHP_EOL;
+echo $asciiStackAdapter->pop() . PHP_EOL;
+echo $asciiStackAdapter->pop() . PHP_EOL;
