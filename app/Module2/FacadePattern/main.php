@@ -11,7 +11,7 @@ $storageType = \readline("Choose storage type (DB or FS): ");
 $type = \strtolower($storageType);
 $factory = StorageFactoryHandler::create($type);
 
-echo \sprintf("You choose %s \n", $factory::class);
+echo \sprintf("You choose %s%s", $factory::class, PHP_EOL);
 
 $repository = $factory->createPersonRepository();
 $manager = new RacistFacade($repository);
@@ -22,14 +22,14 @@ $repository->savePerson($person);
 $person = new Person("Black", 80);
 $repository->savePerson($person);
 
-echo $manager->whoIsTheSmarter("White", "Black")->getName() . " is smarter.\n";
+echo \sprintf("%s is smarter%s", $manager->whoIsTheSmarter("White", "Black")->getName(), PHP_EOL);
 
-echo "Transferring 10 IQ: \n";
+echo \sprintf("Transferring 10 IQ: %s", PHP_EOL);
 $manager->transferIq("Black", "White", 10);
 
-echo "White IQ: " . $repository->readPerson("White")->getIq() . "\n";
-echo "Black IQ: " . $repository->readPerson("Black")->getIq() . "\n";
+echo \sprintf("White IQ: %s%s", $repository->readPerson("White")->getIq(), PHP_EOL);
+echo \sprintf("Black IQ: %s%s", $repository->readPerson("Black")->getIq(), PHP_EOL);
 
 $manager->changeIqByDelta("Black", -5);
 
-echo "Black IQ after reduction: " . $repository->readPerson("Black")->getIq() . "\n";
+echo \sprintf("Black IQ after reduction: %s%s", $repository->readPerson("Black")->getIq(), PHP_EOL);
