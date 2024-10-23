@@ -1,7 +1,9 @@
 <?php
 
-use App\Module2\Composite\DirectoryEntity;
-use App\Module2\Composite\FileEntity;
+require_once './vendor/autoload.php';
+
+use App\Module2\CompositePattern\DirectoryEntity;
+use App\Module2\CompositePattern\FileEntity;
 
 $root = new DirectoryEntity("root");
 $folder1 = new DirectoryEntity("folder one");
