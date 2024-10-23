@@ -26,7 +26,7 @@ class FSPersonRepository implements PersonRepositoryInterface
         return \unserialize($content, ['allowed_classes' => true]);
     }
 
-    public function readPerson(string $name): Person
+    public function readPerson(string $name): ?Person
     {
         $people = $this->readPeople();
         foreach ($people as $person) {
@@ -35,7 +35,7 @@ class FSPersonRepository implements PersonRepositoryInterface
             }
         }
 
-        throw new \InvalidArgumentException("Person not found!");
+        return null;
     }
 
     public function updatePerson(Person $personToUpdate): void
