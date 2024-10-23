@@ -2,8 +2,6 @@
 
 namespace App\Module2\IteratorPattern;
 
-use http\Exception\InvalidArgumentException;
-
 class FileStringIterator implements StringIteratorInterface
 {
     private $fileHandle;
@@ -12,16 +10,12 @@ class FileStringIterator implements StringIteratorInterface
     public function __construct(string $filePath)
     {
         $this->fileHandle = \fopen($filePath, 'rb');
-        if (!$this->fileHandle) {
-            throw new InvalidArgumentException(\sprintf("Can't read the file%s", $filePath));
-        }
-
         $this->nextLine = $this->readNextLine();
     }
 
     public function hasNext(): bool
     {
-        return $this->nextLine !== false;
+        return !empty($this->nextLine);
     }
 
     public function getNext(): ?string
